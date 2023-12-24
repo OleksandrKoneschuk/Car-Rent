@@ -1,0 +1,6 @@
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\MyLib\bin\Debug\MyLib.dll
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\MyLib\bin\Debug\MyLib.pdb
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\MyLib\obj\Debug\MyLib.csproj.AssemblyReference.cache
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\MyLib\obj\Debug\MyLib.csproj.CoreCompileInputs.cache
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\MyLib\obj\Debug\MyLib.dll
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\MyLib\obj\Debug\MyLib.pdb

@@ -1,0 +1,91 @@
+﻿<Window x:Class="Course.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Course"
+        mc:Ignorable="d"
+        Title="AdminWindow" Height="540" Width="960">
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Width="172" Source="Resources/label.png"/>
+
+        <Label x:Name="label_admin" Content="Вікно адміністрування" HorizontalAlignment="Center" VerticalAlignment="Top" 
+               FontFamily="Yu Gothic UI Semibold" FontSize="22" Margin="0,15,0,0"/>
+
+        <Grid Width="820" Height="175" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,90,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="label_carNumber" Grid.Row="0" Grid.Column="0" Content="Номер авто " FontFamily="Yu Gothic UI Semibold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox x:Name="textBox_carNumber" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" FontFamily="Yu Gothic UI Semibold" FontSize="20" Height="30" Background="#CEDED7"/>
+
+            <Label x:Name="label_carBrand" Grid.Row="1" Grid.Column="0" Content="Бренд авто " FontFamily="Yu Gothic UI Semibold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox x:Name="textBox_carBrand" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" FontFamily="Yu Gothic UI Semibold" FontSize="20" Height="30" Background="#CEDED7"/>
+
+            <Label x:Name="label_carModel" Grid.Row="2" Grid.Column="0" Content="Модель авто " FontFamily="Yu Gothic UI Semibold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox x:Name="textBox_carModel" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" FontFamily="Yu Gothic UI Semibold" FontSize="20" Height="30" Background="#CEDED7"/>
+
+            <Label x:Name="label_carColor" Grid.Row="3" Grid.Column="0" Content="Колір авто " FontFamily="Yu Gothic UI Semibold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox x:Name="textBox_carColor" Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" FontFamily="Yu Gothic UI Semibold" FontSize="20" Height="30" Background="#CEDED7"/>
+
+            <Label x:Name="label_carYear" Grid.Row="4" Grid.Column="0" Content="Рік випуску " FontFamily="Yu Gothic UI Semibold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox x:Name="textBox_carYear" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" FontFamily="Yu Gothic UI Semibold" FontSize="20" Height="30" Background="#CEDED7"/>
+
+
+            <Label x:Name="label_averageFuelConsumption" Grid.Row="0" Grid.Column="2" Content="Середнє споживання пального " FontFamily="Yu Gothic UI Semibold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox x:Name="textBox_averageFuelConsumption" Grid.Row="0" Grid.Column="3" TextWrapping="Wrap" FontFamily="Yu Gothic UI Semibold" FontSize="20" Height="30" Background="#CEDED7"/>
+
+            <Label x:Name="label_cost1_3DayRental" Grid.Row="1" Grid.Column="2" Content="Вартість 1-3 днів оренди " FontFamily="Yu Gothic UI Semibold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox x:Name="textBox_cost1_3DayRental" Grid.Row="1" Grid.Column="3" TextWrapping="Wrap" FontFamily="Yu Gothic UI Semibold" FontSize="20" Height="30" Background="#CEDED7"/>
+
+            <Label x:Name="label_cost4_9DayRental" Grid.Row="2" Grid.Column="2" Content="Вартість 4-9 днів оренди " FontFamily="Yu Gothic UI Semibold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox x:Name="textBox_cost4_9DayRental" Grid.Row="2" Grid.Column="3" TextWrapping="Wrap" FontFamily="Yu Gothic UI Semibold" FontSize="20" Height="30" Background="#CEDED7"/>
+
+            <Label x:Name="label_cost10_25DayRental" Grid.Row="3" Grid.Column="2" Content="Вартість 10-25 днів оренди " FontFamily="Yu Gothic UI Semibold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox x:Name="textBox_cost10_25DayRental" Grid.Row="3" Grid.Column="3" TextWrapping="Wrap" FontFamily="Yu Gothic UI Semibold" FontSize="20" Height="30" Background="#CEDED7"/>
+
+            <Label x:Name="label_cost26DayRental" Grid.Row="4" Grid.Column="2" Content="Вартість від 26 днів оренди " FontFamily="Yu Gothic UI Semibold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox x:Name="textBox_cost26DayRental" Grid.Row="5" Grid.Column="3" TextWrapping="Wrap" FontFamily="Yu Gothic UI Semibold" FontSize="20" Height="30" Background="#CEDED7"/>
+
+        </Grid>
+
+        <Grid Width="405" Height="200" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,20" >
+            <Border BorderBrush="Black" BorderThickness="1" Width="200" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Image x:Name="imagePreview" Width="200" Height="200" Stretch="Uniform" />
+            </Border>
+            <Button x:Name="button_OpenImage" Content="Обрати зображення" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
+            FontSize="18" Height="45" Width="200"  HorizontalAlignment="Right" Cursor="Hand" Click="OpenImageDialog" VerticalAlignment="Center" FontWeight="Bold">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+
+        <Button x:Name="button_AddToBD" Content="Додати машину до Бази" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
+            FontSize="18" Height="45" Width="220"  HorizontalAlignment="Right" Cursor="Hand" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,70,97" Click="button_AddToBD_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Window>
