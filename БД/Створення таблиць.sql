@@ -27,3 +27,19 @@ create table Avto
 	cost_10_25_Day_Rental decimal(10, 2),
 	cost_26_Day_Rental decimal(10, 2)
 );
+
+
+CREATE TABLE Rent
+(
+    ID_Renta INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    rental_Start_Date DATE,
+    end_Of_Rental DATE,
+    actual_End_Of_Rental DATETIME, 
+
+    ID_Klient INT NOT NULL FOREIGN KEY (ID_Klient) REFERENCES 
+    Klient(ID_Klient) ON DELETE CASCADE ON UPDATE NO ACTION,
+    
+    ID_Avto INT NOT NULL FOREIGN KEY (ID_Avto) REFERENCES 
+    Avto(ID_Avto) ON DELETE CASCADE ON UPDATE NO ACTION
+);
+

@@ -56,15 +56,13 @@ namespace Course
                 $"values('{lastName}', '{firstName}', '{surname}', '{passportNumber}', '{phoneNumber}', '{driverLicense}', '{password}', '{registration_Date}')";
 
             SqlCommand command = new SqlCommand(querystring, dataBase.getSqlConnection());
-            object result = command.ExecuteScalar();
             dataBase.openConnection();
 
             if(command.ExecuteNonQuery() == 1)
             {
-                int idKlient = (int)result;
                 MessageBox.Show("Ви успішно зареєстровані!", "Успішно!", MessageBoxButton.OK, MessageBoxImage.Information);
-                MainWindow MainWindow = new MainWindow(idKlient);
-                MainWindow.Show();
+                log_in log_in = new log_in();
+                log_in.Show();
                 this.Close();
             }
             else

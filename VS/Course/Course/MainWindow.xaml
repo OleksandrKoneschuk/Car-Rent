@@ -4,21 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Course"
+        Language="uk-ua"
+        xml:lang="uk-UA"
         mc:Ignorable="d" Icon="Resources/logo.png"
         WindowStartupLocation="CenterScreen"
         Title="Головна сторінка" Height="540" Width="960">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="63"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="84"/>
         </Grid.RowDefinitions>
-    
-        
+
+
         <Grid Grid.Row="0">
             <Image HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Width="172" Source="Resources/label.png"/>
 
-            <ComboBox x:Name="sortComboBox" VerticalAlignment="Center" HorizontalAlignment="Center"
+            <ComboBox x:Name="sortComboBox" VerticalAlignment="Center" HorizontalAlignment="Center" 
                       FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" BorderBrush="#87BBA4"
                       Width="200" Height="31" SelectionChanged="sortComboBox_SelectionChanged" Text="За замовчуванням" FontSize="16" Margin="280,0,0,0">
                 <ComboBoxItem Content="Рік випуску, за зростанням" Tag="car_Year" />
@@ -54,42 +57,43 @@
                 </Style>
             </Grid.Resources>
 
-            <Grid Height="333" Width="345" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0 0 0">
-                <Border CornerRadius="15" BorderBrush="Black" BorderThickness="1">
-                    <Grid>
-                        <TextBox Margin="10" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Оберіть дату прокату" FontSize="20" FontFamily="Yu Gothic UI Semibold" IsReadOnly="True" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
+            <Grid Height="333" Width="315" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0">
+                <Border CornerRadius="15" Background="#CEDED7" BorderBrush="#CEDED7" BorderThickness="1">
+                    <Grid Background="Transparent">
+                        <Image Source="Resources/findAvto.png"/>
+                        <TextBox Margin="10" Height="30" VerticalAlignment="Top" Background="Transparent" HorizontalAlignment="Center" Text="Оберіть дату прокату" FontSize="20" FontFamily="Yu Gothic UI Semibold" IsReadOnly="True" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
 
-                        <TextBox Margin="10,45,10,10" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Дата подачі" FontSize="18" FontFamily="Yu Gothic UI Semibold" IsReadOnly="True" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
+                        <TextBox Margin="10,45,10,10" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Дата подачі" FontSize="18" FontFamily="Yu Gothic UI Semibold" IsReadOnly="True" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
+
+                        <DatePicker x:Name="Start_Date_DatePicker" Height="35" Width="200" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,76,0,0" FontFamily="Yu Gothic UI Semibold" FontSize="20" Language="uk-UA" FirstDayOfWeek="Monday"/>
 
 
-                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Text="Дата повернення" FontSize="18" FontFamily="Yu Gothic UI Semibold" IsReadOnly="True" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
+                        <TextBox VerticalAlignment="Center" Background="Transparent" HorizontalAlignment="Center" Text="Дата повернення" FontSize="18" FontFamily="Yu Gothic UI Semibold" IsReadOnly="True" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
+                        <DatePicker x:Name="end_Of_Rental_DatePicker" Height="35" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,76,0,0" FontFamily="Yu Gothic UI Semibold" FontSize="20" Language="uk-UA" FirstDayOfWeek="Monday"/>
 
+                        <Button x:Name="button_FindAvto" Content="Знайти авто" FontFamily="Yu Gothic UI Semibold" Background="#5F7E70" 
+        FontSize="22" Height="45" Width="200"  HorizontalAlignment="Center" Cursor="Hand" VerticalAlignment="Bottom" Margin="0,0,0,20" FontWeight="Bold" Click="button_FindAvto_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
                     </Grid>
                 </Border>
             </Grid>
 
-            <ListBox x:Name="carListBox" Width="560" HorizontalContentAlignment="Stretch" HorizontalAlignment="Right" BorderBrush="Transparent" ItemContainerStyle="{StaticResource ListBoxItemStyle}">
+            <ListBox x:Name="carListBox" Width="590" HorizontalContentAlignment="Stretch" HorizontalAlignment="Right" ItemContainerStyle="{StaticResource ListBoxItemStyle}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="240" Width="550" HorizontalAlignment="Right" Margin="10">
+                        <Grid Height="240"  Width="550" HorizontalAlignment="Right" Margin="10">
                             <Border CornerRadius="15" BorderBrush="Black" BorderThickness="1">
                                 <Grid>
-
-                                    <TextBox Text="AM 7231 AM" Grid.Column="0" Grid.Row="0" IsReadOnly="True" Height="22" Width="auto" FontSize="16" FontFamily="Yu Gothic UI Semibold" Margin="10" 
-                                                 BorderBrush="Transparent" SelectionBrush="{x:Null}"  IsHitTestVisible="False"/>
-
-                                    <TextBox Text="Чорний" IsReadOnly="True" Height="22" Width="auto" FontSize="16" FontFamily="Yu Gothic UI Semibold" Margin="10" 
-                                                 BorderBrush="Transparent" SelectionBrush="{x:Null}"  IsHitTestVisible="False"/>
-
-                                    <TextBox Text="2017" IsReadOnly="True" Height="22" Width="auto" FontSize="16" FontFamily="Yu Gothic UI Semibold" Margin="10" 
-                                                 BorderBrush="Transparent" SelectionBrush="{x:Null}"  IsHitTestVisible="False"/>
-
-
-
                                     <TextBox Text="{Binding Path=AverageFuelConsumption, StringFormat='бензин / {0:N1}л'}" IsReadOnly="True" 
                                             Height="22" Width="auto" FontSize="16" FontFamily="Yu Gothic UI Semibold" Margin="10"
                                             BorderBrush="Transparent" SelectionBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" IsHitTestVisible="False"/>
-
 
                                     <Grid Height="240" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5">
                                         <Grid.RowDefinitions>
@@ -97,7 +101,8 @@
                                             <RowDefinition Height="200"/>
                                         </Grid.RowDefinitions>
 
-                                        <TextBox Grid.Row="0" Text="{Binding CarBrandModel}" IsReadOnly="True" Height="27" Width="auto" FontSize="22" 
+                                        <TextBox Grid.Row="0" Text="{Binding CarBrandModel}" IsReadOnly="True" Height="35
+                                                 " Width="auto" FontSize="22" 
                                         FontWeight="Bold" FontFamily="Yu Gothic UI Semibold" HorizontalAlignment="Center" VerticalAlignment="Center"
                                         BorderBrush="Transparent" SelectionBrush="{x:Null}" IsHitTestVisible="False" />
                                         <Image Grid.Row="1" Source="{Binding PhotoData}" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
@@ -125,7 +130,6 @@
                                         <TextBox Text="{Binding CarYear}" Grid.Column="1" Grid.Row="2" IsReadOnly="True" FontSize="16" FontFamily="Yu Gothic UI Semibold" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
 
 
-
                                         <TextBox Grid.Column="2" Grid.Row="0" Text="1-3 діб" FontSize="16" FontFamily="Yu Gothic UI Semibold" IsReadOnly="True" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
                                         <TextBox Text="{Binding Cost1_3DayRental, StringFormat=${0:N1}}" Grid.Column="3" Grid.Row="0" IsReadOnly="True" FontSize="16" FontFamily="Yu Gothic UI Semibold" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
                                         <TextBox Grid.Column="2" Grid.Row="1" Text="4-9 діб" FontSize="16" FontFamily="Yu Gothic UI Semibold" IsReadOnly="True" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
@@ -138,8 +142,8 @@
                                     </Grid>
 
                                     <Button x:Name="button_ChooseCar" Content="Обрати авто" FontFamily="Yu Gothic UI Semibold" Background="#5F7E70" 
-                                            FontSize="20" Height="45" Width="145" Cursor="Hand" FontWeight="Bold" 
-                                            VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0, 0, 15, 10">
+                                            FontSize="20" Height="45" Width="145" Cursor="Hand" FontWeight="Bold" Click="button_ChooseCar_Click"
+                                            VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0, 0, 15, 10" Tag="{Binding ID_Avto}">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">

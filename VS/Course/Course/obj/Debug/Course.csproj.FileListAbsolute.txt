@@ -29,3 +29,5 @@ D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\bin\Debu
 D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\bin\Debug\EntityFramework.xml
 D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\bin\Debug\EntityFramework.SqlServer.xml
 D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\bin\Debug\ru\EntityFramework.resources.dll
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\ChooseCarWindow.g.cs
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\ChooseCarWindow.baml

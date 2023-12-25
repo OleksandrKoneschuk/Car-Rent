@@ -15,6 +15,9 @@ namespace Course
         DataBase dataBase = new DataBase();
 
         private int _idKlient;
+
+        private DateTime _startDate;
+        private DateTime _endDate;
         public MainWindow(int idKlient)
         {
             InitializeComponent();
@@ -24,6 +27,17 @@ namespace Course
             carListBox.ItemsSource = cars;
 
             UpdateCarsCollection("SELECT * FROM Avto");
+
+            DateTime currentDate = DateTime.Now;
+            DateTime nextDay = currentDate.AddDays(1);
+            Start_Date_DatePicker.DisplayDateStart = currentDate;
+            end_Of_Rental_DatePicker.DisplayDateStart = nextDay;
+
+            Start_Date_DatePicker.SelectedDate = currentDate;
+            end_Of_Rental_DatePicker.SelectedDate = nextDay;
+
+            _startDate = currentDate;
+            _endDate = nextDay;
         }
 
 
@@ -38,11 +52,13 @@ namespace Course
             }
         }
 
+
         private void Search()
         {
             string queryString = $"SELECT * FROM Avto WHERE concat (ID_Avto, car_Number, car_Brand, car_Model, car_Color, car_Year, average_Fuel_Consumption) like '%" + searchTextBox.Text + "%'";
             UpdateCarsCollection(queryString);
         }
+
 
         private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -58,6 +74,24 @@ namespace Course
             }
         }
 
+        private void button_FindAvto_Click(object sender, RoutedEventArgs e)
+        {
+            _startDate = (Start_Date_DatePicker.SelectedDate ?? DateTime.MinValue).Date;
+            var startDate = _startDate.ToString("yyyy-MM-dd");
+            _endDate = (end_Of_Rental_DatePicker.SelectedDate ?? DateTime.MinValue).Date;
+            var endDate = _endDate.ToString("yyyy-MM-dd");
+
+            if (_startDate < _endDate)
+            {
+                string queryString = $"SELECT Avto.* FROM Avto LEFT JOIN Rent ON Avto.ID_Avto = Rent.ID_Avto WHERE Rent.ID_Renta IS NULL OR (Rent.end_Of_Rental < '{startDate}' OR Rent.rental_Start_Date > '{endDate}');";
+                UpdateCarsCollection(queryString);
+            }
+            else
+            {
+                MessageBox.Show("Дата початку повинна бути менше за дату завершення.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private List<Car> GetCarData(string queryString)
         {
             try
@@ -66,7 +100,6 @@ namespace Course
 
                 using (SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection()))
                 {
-
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         List<Car> cars = new List<Car>();
@@ -107,11 +140,32 @@ namespace Course
             }
         }
 
+
         private void Profile_Button_Click(object sender, RoutedEventArgs e)
         {
             Profile profile = new Profile(_idKlient);
             profile.Show();
             this.Close();
+        }
+
+        private void button_ChooseCar_Click(object sender, RoutedEventArgs e)
+        {
+            Button clickedButton = sender as Button;
+            if (clickedButton != null)
+            {
+                if (_startDate < _endDate)
+                {
+                    int idAvto = (int)clickedButton.Tag;
+
+                    ChooseCarWindow childWindow = new ChooseCarWindow(_startDate, _endDate, idAvto, _idKlient);
+                    childWindow.Owner = this;
+                    childWindow.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Дата початку повинна бути менше за дату завершення.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using MyLib;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Windows;
 
 namespace Course
@@ -10,13 +12,20 @@ namespace Course
     {
         private int _idKlient;
         DataBase dataBase = new DataBase();
+        public class BookingHistoryItem
+        {
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
+            public string ActualEndDate { get; set; }
+        }
 
         public Profile(int idKlient)
         {
             InitializeComponent();
-
+            
            _idKlient = idKlient;
             GetProfile();
+            LoadBookingHistory(_idKlient);
         }
 
         private void GetProfile()
@@ -49,6 +58,60 @@ namespace Course
             catch (Exception ex)
             {
                 MessageBox.Show($"Помилка при отриманні даних про клієнта: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                dataBase.closeConnection();
+            }
+        }
+
+        private void LoadBookingHistory(int idKlient)
+        {
+            try
+            {
+                dataBase.openConnection();
+
+                string queryString = @"
+            SELECT rental_Start_Date, end_Of_Rental, actual_End_Of_Rental
+            FROM Rent
+            WHERE ID_Klient = @idKlient
+        ";
+
+                using (SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection()))
+                {
+                    command.Parameters.AddWithValue("@idKlient", idKlient);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<BookingHistoryItem> bookingHistory = new List<BookingHistoryItem>();
+
+                        while (reader.Read())
+                        {
+                            DateTime rentalStartDate = (DateTime)reader["rental_Start_Date"];
+                            DateTime endOfRental = (DateTime)reader["end_Of_Rental"];
+                            DateTime actualEndOfRental = (DateTime)reader["actual_End_Of_Rental"];
+
+
+
+                            string actualEndDateText = (actualEndOfRental == DateTime.ParseExact("1900-01-01 00:00:00.000", "yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture))
+                                ? "Авто ще не повернули"
+                                : actualEndOfRental.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                            bookingHistory.Add(new BookingHistoryItem
+                            {
+                                StartDate = rentalStartDate,
+                                EndDate = endOfRental,
+                                ActualEndDate = actualEndDateText
+                            });
+                        }
+
+                        orderListBox.ItemsSource = bookingHistory;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка при отриманні історії бронювань: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
