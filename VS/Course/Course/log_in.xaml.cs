@@ -46,10 +46,9 @@ namespace Course
             }
             else if(loginUser == "0979742402")
             {
-                int idKlient = (int)result;
                 MessageBox.Show("Ви успішно увійшли в акаунт адміністратора!", "Успішно!", MessageBoxButton.OK, MessageBoxImage.Information);
-                AdminWindow AdminWindow = new AdminWindow();
-                AdminWindow.Show();
+                AdminMenu AdminMenu = new AdminMenu();
+                AdminMenu.Show();
                 dataBase.closeConnection();
                 this.Close();
             }

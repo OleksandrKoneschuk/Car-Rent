@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\App.xaml
-6-83078885
+9-768161876
 
-101886475879
+13155256814
 20-900698054
-AdminWindow.xaml;ChooseCarWindow.xaml;log_in.xaml;MainWindow.xaml;Profile.xaml;sign_up.xaml;
+AdminMenu.xaml;AdminWindow.xaml;ChooseCarWindow.xaml;DataBaseEditor.xaml;log_in.xaml;MainWindow.xaml;Profile.xaml;ReturnTheCar.xaml;sign_up.xaml;
 
 False
 

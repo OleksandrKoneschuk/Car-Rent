@@ -48,8 +48,6 @@ namespace Course
                     return;
                 }
 
-
-                // Отримання значень з текстбоксів
                 string carNumber = textBox_carNumber.Text;
                 string carBrand = textBox_carBrand.Text;
                 string carModel = textBox_carModel.Text;
@@ -61,8 +59,6 @@ namespace Course
                 decimal cost4_9DayRental = decimal.Parse(textBox_cost4_9DayRental.Text);
                 decimal cost10_25DayRental = decimal.Parse(textBox_cost10_25DayRental.Text);
                 decimal cost26DayRental = decimal.Parse(textBox_cost26DayRental.Text);
-
-                // Підключення до бази даних
 
                 dataBase.openConnection();
 
@@ -104,6 +100,13 @@ namespace Course
             {
                 MessageBox.Show($"Помилка при додаванні даних: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void button_GoToAdminMenu_Click(object sender, RoutedEventArgs e)
+        {
+            AdminMenu AdminMenu = new AdminMenu();
+            AdminMenu.Show();
+            this.Close();
         }
     }
 }

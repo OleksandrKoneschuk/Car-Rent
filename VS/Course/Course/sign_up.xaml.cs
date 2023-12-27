@@ -73,28 +73,33 @@ namespace Course
 
         private Boolean checkUser()
         {
-            var loginUser = textBox_phoneNumber.Text;
-            var passUser = textBox_password.Text;
+            string loginUser = textBox_phoneNumber.Text;
+            string passUser = textBox_password.Text;
 
             SqlDataAdapter adapter = new SqlDataAdapter();
             DataTable table = new DataTable();
 
-            string querystring = $"select ID_Klient, phone_Number, password_user from Klient where phone_Number = '{loginUser}' and password_user = '{passUser}'";
+            string queryString = "SELECT ID_Klient, phone_Number, password_user FROM Klient WHERE phone_Number = @loginUser AND password_user = @passUser";
 
-            SqlCommand command = new SqlCommand(querystring, dataBase.getSqlConnection());
+            using (SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection()))
+            {
+                command.Parameters.AddWithValue("@loginUser", loginUser);
+                command.Parameters.AddWithValue("@passUser", passUser);
 
-            adapter.SelectCommand = command;
-            adapter.Fill(table);
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
 
-            if(table.Rows.Count > 0) 
+            if (table.Rows.Count > 0)
             {
                 MessageBox.Show("Користувач вже існує!", "Користувач існує!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return true;
             }
             else
-            { 
-                return false; 
+            {
+                return false;
             }
         }
+
     }
 }

@@ -31,3 +31,9 @@ D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\bin\Debu
 D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\bin\Debug\ru\EntityFramework.resources.dll
 D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\ChooseCarWindow.g.cs
 D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\ChooseCarWindow.baml
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\AdminMenu.g.cs
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\DataBaseEditor.g.cs
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\AdminMenu.baml
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\DataBaseEditor.baml
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\ReturnTheCar.g.cs
+D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\ReturnTheCar.baml

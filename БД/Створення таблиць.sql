@@ -35,6 +35,7 @@ CREATE TABLE Rent
     rental_Start_Date DATE,
     end_Of_Rental DATE,
     actual_End_Of_Rental DATETIME, 
+	rental_Price decimal(10, 2),
 
     ID_Klient INT NOT NULL FOREIGN KEY (ID_Klient) REFERENCES 
     Klient(ID_Klient) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -42,4 +43,90 @@ CREATE TABLE Rent
     ID_Avto INT NOT NULL FOREIGN KEY (ID_Avto) REFERENCES 
     Avto(ID_Avto) ON DELETE CASCADE ON UPDATE NO ACTION
 );
+
+
+create table Fines
+(
+    ID_Fines int identity(1,1) not null primary key,
+    name_Fines nvarchar(20) check (name_Fines like N'[À-ßà-ÿ]%'),
+    sum_Fines decimal(10, 2),
+
+    ID_Klient int not null foreign key (ID_Klient) references 
+    Klient(ID_Klient) on delete cascade on update no action
+);
+
+
+create table Discount
+(
+    ID_Discount int identity(1,1) not null primary key,
+    name_Discount nvarchar(20) check (name_Discount like N'[À-ßà-ÿ]%'),
+    percent_Discount INT CHECK (percent_Discount BETWEEN 1 AND 100),
+
+    ID_Klient int not null foreign key (ID_Klient) references 
+    Klient(ID_Klient) on delete cascade on update no action
+);
+
+SELECT percent_Discount FROM Discount WHERE ID_Klient = 2;
+
+INSERT INTO Discount (name_Discount, percent_Discount, ID_Klient)
+VALUES 
+    (N'Çíèæêà 1', 10, 2),
+    (N'Çíèæêà 2', 15, 2);
+
+
+CREATE PROCEDURE SearchInfoInKlient
+    @searchText NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @sql NVARCHAR(MAX)
+    SET @sql = 'SELECT * FROM Klient WHERE '
+
+    SET @sql = @sql + 'last_Name LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'first_Name LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'surname LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'passport_Number LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'phone_Number LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'driver_License_Number LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'password_user LIKE ''%' + @searchText + '%'''
+
+    EXEC sp_executesql @sql
+END
+
+CREATE PROCEDURE SearchInfoInAvto
+    @searchText NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @sql NVARCHAR(MAX)
+    SET @sql = 'SELECT * FROM Avto WHERE '
+
+    SET @sql = @sql + 'car_Number LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'car_Brand LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'car_Model LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'car_Color LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'CAST(car_Year AS NVARCHAR(MAX)) LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'CAST(average_Fuel_Consumption AS NVARCHAR(MAX)) LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'CAST(cost_1_3_Day_Rental AS NVARCHAR(MAX)) LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'CAST(cost_4_9_Day_Rental AS NVARCHAR(MAX)) LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'CAST(cost_10_25_Day_Rental AS NVARCHAR(MAX)) LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'CAST(cost_26_Day_Rental AS NVARCHAR(MAX)) LIKE ''%' + @searchText + '%'''
+
+    EXEC sp_executesql @sql
+END
+
+
+CREATE PROCEDURE SearchInfoInRent
+    @searchText NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @sql NVARCHAR(MAX)
+    SET @sql = 'SELECT * FROM Rent WHERE '
+
+    SET @sql = @sql + 'CONVERT(NVARCHAR, rental_Start_Date, 103) LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'CONVERT(NVARCHAR, end_Of_Rental, 103) LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'CONVERT(NVARCHAR, actual_End_Of_Rental, 103) LIKE ''%' + @searchText + '%'' OR '
+    SET @sql = @sql + 'ID_Klient IN (SELECT ID_Klient FROM Klient WHERE last_Name LIKE ''%' + @searchText + '%'') OR '
+    SET @sql = @sql + 'ID_Avto IN (SELECT ID_Avto FROM Avto WHERE car_Number LIKE ''%' + @searchText + '%'')'
+
+    EXEC sp_executesql @sql
+END
 

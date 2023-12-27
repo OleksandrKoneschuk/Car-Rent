@@ -19,6 +19,18 @@ namespace Course
             public string ActualEndDate { get; set; }
         }
 
+        public class FinesHistoryItem
+        {
+            public string NameFines { get; set; }
+            public string SumFines { get; set; }
+        }
+
+        public class DiscountHistoryItem
+        {
+            public string NameDiscount { get; set; }
+            public string PercentDiscount { get; set; }
+        }
+
         public Profile(int idKlient)
         {
             InitializeComponent();
@@ -26,6 +38,8 @@ namespace Course
            _idKlient = idKlient;
             GetProfile();
             LoadBookingHistory(_idKlient);
+            LoadFinesHistory(_idKlient);
+            LoadDiscountHistory(_idKlient);
         }
 
         private void GetProfile()
@@ -95,7 +109,7 @@ namespace Course
 
                             string actualEndDateText = (actualEndOfRental == DateTime.ParseExact("1900-01-01 00:00:00.000", "yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture))
                                 ? "Авто ще не повернули"
-                                : actualEndOfRental.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                                : actualEndOfRental.ToString("dd.MM.yyyy HH:mm:ss");
                             bookingHistory.Add(new BookingHistoryItem
                             {
                                 StartDate = rentalStartDate,
@@ -112,6 +126,101 @@ namespace Course
             catch (Exception ex)
             {
                 MessageBox.Show($"Помилка при отриманні історії бронювань: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                dataBase.closeConnection();
+            }
+        }
+
+
+        private void LoadFinesHistory(int idKlient)
+        {
+            try
+            {
+                dataBase.openConnection();
+
+                string queryString = @"
+            SELECT name_Fines, sum_Fines
+            FROM Fines
+            WHERE ID_Klient = @idKlient
+        ";
+
+                using (SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection()))
+                {
+                    command.Parameters.AddWithValue("@idKlient", idKlient);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<FinesHistoryItem> finesHistory = new List<FinesHistoryItem>();
+
+                        while (reader.Read())
+                        {
+                            string name_Fines = reader["name_Fines"].ToString();
+                            string sum_Fines = reader["sum_Fines"].ToString();
+
+                            finesHistory.Add(new FinesHistoryItem
+                            {
+                                NameFines = name_Fines,
+                                SumFines = sum_Fines
+                            });
+                        }
+
+                        finesListBox.ItemsSource = finesHistory;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка при отриманні історії штрафів: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                dataBase.closeConnection();
+            }
+        }
+
+
+        private void LoadDiscountHistory(int idKlient)
+        {
+            try
+            {
+                dataBase.openConnection();
+
+                string queryString = @"
+                    SELECT name_Discount, percent_Discount
+                    FROM Discount
+                    WHERE ID_Klient = @idKlient
+        ";
+
+                using (SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection()))
+                {
+                    command.Parameters.AddWithValue("@idKlient", idKlient);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<DiscountHistoryItem> discountHistory = new List<DiscountHistoryItem>();
+
+                        while (reader.Read())
+                        {
+                            string name_Discount = reader["name_Discount"].ToString();
+                            string percent_Discount = reader["percent_Discount"].ToString();
+
+                            discountHistory.Add(new DiscountHistoryItem
+                            {
+                                NameDiscount = name_Discount,
+                                PercentDiscount = percent_Discount
+                            });
+                        }
+
+                        discountListBox.ItemsSource = discountHistory;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка при отриманні історії персональних акцій користувача: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

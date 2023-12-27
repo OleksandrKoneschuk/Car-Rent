@@ -87,5 +87,16 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+
+        <Button x:Name="button_GoToAdminMenu" Content="Повернутися в меню" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
+    FontSize="18" Height="45" Width="220"  HorizontalAlignment="Right" Cursor="Hand" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,70,20" Click="button_GoToAdminMenu_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </Window>

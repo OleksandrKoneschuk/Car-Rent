@@ -33,8 +33,8 @@ namespace Course
             Start_Date_DatePicker.DisplayDateStart = currentDate;
             end_Of_Rental_DatePicker.DisplayDateStart = nextDay;
 
-            Start_Date_DatePicker.SelectedDate = currentDate;
-            end_Of_Rental_DatePicker.SelectedDate = nextDay;
+            //Start_Date_DatePicker.SelectedDate = currentDate;
+            //end_Of_Rental_DatePicker.SelectedDate = nextDay;
 
             _startDate = currentDate;
             _endDate = nextDay;

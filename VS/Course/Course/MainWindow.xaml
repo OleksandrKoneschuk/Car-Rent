@@ -9,7 +9,7 @@
         mc:Ignorable="d" Icon="Resources/logo.png"
         WindowStartupLocation="CenterScreen"
         Title="Головна сторінка" Height="540" Width="960">
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="63"/>
@@ -32,10 +32,12 @@
                 <ComboBoxItem Content="Розхід палива, за спаданням" Tag="average_Fuel_Consumption DESC" />
             </ComboBox>
 
-            <TextBox x:Name="searchTextBox" TextChanged="searchTextBox_TextChanged"
-         FontFamily="Yu Gothic UI Semibold" FontSize="16" Height="30" Width="200" 
-         VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,17,0"/>
-
+            <Grid Height="30" Width="200" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0" >
+                <TextBox x:Name="searchTextBox" TextChanged="searchTextBox_TextChanged" VerticalContentAlignment="Center"
+                    FontFamily="Yu Gothic UI Semibold" FontSize="16" Height="30" Width="200"/>
+                <Image Source="Resources/loupe.png" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,3,0"></Image>
+            </Grid>
+            
         </Grid>
 
 
@@ -65,12 +67,49 @@
 
                         <TextBox Margin="10,45,10,10" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Дата подачі" FontSize="18" FontFamily="Yu Gothic UI Semibold" IsReadOnly="True" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
 
-                        <DatePicker x:Name="Start_Date_DatePicker" Height="35" Width="200" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,76,0,0" FontFamily="Yu Gothic UI Semibold" FontSize="20" Language="uk-UA" FirstDayOfWeek="Monday"/>
+                        <DatePicker x:Name="Start_Date_DatePicker" Height="35" Width="200" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,76,0,0" 
+                                FontFamily="Yu Gothic UI Semibold" FontSize="20" Language="uk-UA" FirstDayOfWeek="Monday" BorderBrush="Transparent">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <TextBox x:Name="PART_TextBox"
+                                                    Text="{Binding Path=SelectedDate, StringFormat='dd.MM.yyyy', RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}"
+                                                    Focusable="False"
+                                                    HorizontalContentAlignment="Center"
+                                                    VerticalContentAlignment="Center" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DatePicker.Resources>
+                            <DatePicker.Background>
+                                <ImageBrush/>
+                            </DatePicker.Background>
+                        </DatePicker>
+
 
 
                         <TextBox VerticalAlignment="Center" Background="Transparent" HorizontalAlignment="Center" Text="Дата повернення" FontSize="18" FontFamily="Yu Gothic UI Semibold" IsReadOnly="True" BorderBrush="Transparent" SelectionBrush="Transparent" IsHitTestVisible="False"/>
-                        <DatePicker x:Name="end_Of_Rental_DatePicker" Height="35" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,76,0,0" FontFamily="Yu Gothic UI Semibold" FontSize="20" Language="uk-UA" FirstDayOfWeek="Monday"/>
-
+                        <DatePicker x:Name="end_Of_Rental_DatePicker" Height="35" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,76,0,0" 
+                                    FontFamily="Yu Gothic UI Semibold" FontSize="20" Language="uk-UA" FirstDayOfWeek="Monday" BorderBrush="Transparent">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <TextBox x:Name="PART_TextBox"
+                                                    Text="{Binding Path=SelectedDate, StringFormat='dd.MM.yyyy', RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}"
+                                                    Focusable="False"
+                                                    HorizontalContentAlignment="Center"
+                                                    VerticalContentAlignment="Center" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
                         <Button x:Name="button_FindAvto" Content="Знайти авто" FontFamily="Yu Gothic UI Semibold" Background="#5F7E70" 
         FontSize="22" Height="45" Width="200"  HorizontalAlignment="Center" Cursor="Hand" VerticalAlignment="Bottom" Margin="0,0,0,20" FontWeight="Bold" Click="button_FindAvto_Click">
                             <Button.Template>
