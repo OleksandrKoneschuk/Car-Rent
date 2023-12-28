@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace Course
 {
-    /// <summary>
-    /// Логика взаимодействия для AdminMenu.xaml
-    /// </summary>
     public partial class AdminMenu : Window
     {
         public AdminMenu()
@@ -33,7 +30,7 @@ namespace Course
 
         private void open_DataBaseEditor_Click(object sender, RoutedEventArgs e)
         {
-            DataBaseEditor DataBaseEditor = new DataBaseEditor();
+            DataBaseEditor DataBaseEditor = new DataBaseEditor("SELECT * FROM Klient", 2, "Klient");
             DataBaseEditor.Show();
             this.Close();
         }
@@ -52,7 +49,16 @@ namespace Course
 
         private void return_TheCar_Click(object sender, RoutedEventArgs e)
         {
+            DataBaseEditor DataBaseEditor = new DataBaseEditor("SELECT * FROM Rent", 1, "Rent");
+            DataBaseEditor.Show();
+            this.Close();
+        }
 
+        private void finesDiscount_Click(object sender, RoutedEventArgs e)
+        {
+            DataBaseEditor DataBaseEditor = new DataBaseEditor("SELECT * FROM Discount", 3, "Discount");
+            DataBaseEditor.Show();
+            this.Close();
         }
     }
 }

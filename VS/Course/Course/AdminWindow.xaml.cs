@@ -9,9 +9,6 @@ using System.Windows.Media.Imaging;
 
 namespace Course
 {
-    /// <summary>
-    /// Логика взаимодействия для AdminWindow.xaml
-    /// </summary>
     public partial class AdminWindow : Window
     {
         DataBase dataBase = new DataBase();
@@ -41,7 +38,6 @@ namespace Course
         {
             try
             {
-                // Перевірка, чи обрано фото
                 if (selectedImageData == null)
                 {
                     MessageBox.Show("Будь ласка, оберіть фото", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -62,7 +58,6 @@ namespace Course
 
                 dataBase.openConnection();
 
-                // SQL-запит для вставки даних в базу даних
                 string queryString = @"INSERT INTO Avto
                                            (car_Number, car_Brand, car_Model, car_Color, car_Year, 
                                             average_Fuel_Consumption, PhotoData, 
@@ -74,7 +69,6 @@ namespace Course
 
                 using (SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection()))
                 {
-                    // Додавання параметрів до SQL-запиту
                     command.Parameters.AddWithValue("@CarNumber", carNumber);
                     command.Parameters.AddWithValue("@CarBrand", carBrand);
                     command.Parameters.AddWithValue("@CarModel", carModel);
@@ -87,7 +81,6 @@ namespace Course
                     command.Parameters.AddWithValue("@Cost10_25DayRental", cost10_25DayRental);
                     command.Parameters.AddWithValue("@Cost26DayRental", cost26DayRental);
 
-                    // Виконання SQL-запиту
                     command.ExecuteNonQuery();
                 }
 

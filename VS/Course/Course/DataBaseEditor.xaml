@@ -24,9 +24,7 @@
             <ComboBox x:Name="showComboBox" VerticalAlignment="Center" HorizontalAlignment="Right"
     FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" BorderBrush="#87BBA4" SelectedIndex="1" 
     Width="200" Height="31" FontSize="16" SelectionChanged="showComboBox_SelectionChanged" Margin="0,0,230,0">
-                <ComboBoxItem Content="Таблиця авто" Tag="Avto" />
-                <ComboBoxItem Content="Таблиця клієнт" Tag="Klient" />
-                <ComboBoxItem Content="Таблиця оренди авто" Tag="Rent" />
+                
             </ComboBox>
 
             <Grid Height="30" Width="200" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0" >
@@ -47,6 +45,35 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+
+            <Grid x:Name="gridTime"  Width="250" Height="60" VerticalAlignment="Center" Margin="0,0,15,0">
+
+                <TextBox x:Name="timeTextBox" Width="243" Height="25" FontSize="14" TextAlignment="Center" FontFamily="Yu Gothic UI Semibold" IsReadOnly="True" Focusable="False" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Button x:Name="GetDateTime" Width="250" Height="25" Content="Отримати значення поточного часу" Click="GetDateTime_Click" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#87BBA4"  FontFamily="Yu Gothic UI Semibold" Cursor="Hand" FontSize="12">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <Grid x:Name="gridId"  Width="250" Height="60" VerticalAlignment="Center" Margin="0,0,15,0">
+
+                <TextBox x:Name="idTextBox" Width="243" Height="25" FontSize="14" TextAlignment="Center" FontFamily="Yu Gothic UI Semibold" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Button x:Name="GetId" Width="250" Height="25" Content="Обрати Id Клієнта та створити запис" Click="GetIdKlient_Click" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#87BBA4"  FontFamily="Yu Gothic UI Semibold" Cursor="Hand" FontSize="12">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
 
             <Grid Height="60" Width="330" HorizontalAlignment="Right" Margin="0,0,15,0">
                 <TextBox x:Name="textBox_forUpdate" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="top"

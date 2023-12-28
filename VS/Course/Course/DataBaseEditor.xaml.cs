@@ -1,37 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MyLib;
+using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Data.SqlClient;
-using MyLib;
-using System.Data;
-using System.Reflection;
 
 namespace Course
 {
-    
+
     public partial class DataBaseEditor : Window
     {
         DataBase dataBase = new DataBase();
-        private string _showBy = "Klient";
+        private string _showBy;
         private string _columnName;
         private object _Id;
         private string _firstColumnName;
 
 
-        public DataBaseEditor()
+        public DataBaseEditor(string queryString, int check, string showBy)
         {
             InitializeComponent();
-            LoadDataIntoGrid("SELECT * FROM Klient");
+            LoadDataIntoGrid(queryString);
+
+            if (check == 1)
+            {
+                showComboBox.Visibility = Visibility.Hidden;
+                gridId.Visibility = Visibility.Hidden;
+                _showBy = showBy;
+                ComboBoxItem item3 = new ComboBoxItem() { Content = "Таблиця оренди авто", Tag = "Rent" };
+                showComboBox.Items.Add(item3);
+
+            }
+            else if(check == 2)
+            {
+                gridTime.Visibility = Visibility.Hidden;
+                gridId.Visibility = Visibility.Hidden;
+                _showBy = showBy;
+
+                ComboBoxItem item1 = new ComboBoxItem() { Content = "Таблиця авто", Tag = "Avto" };
+                ComboBoxItem item2 = new ComboBoxItem() { Content = "Таблиця клієнт", Tag = "Klient" };
+                ComboBoxItem item3 = new ComboBoxItem() { Content = "Таблиця оренди авто", Tag = "Rent" };
+                ComboBoxItem item4 = new ComboBoxItem() { Content = "Таблиця штрафів", Tag = "Fines" };
+                ComboBoxItem item5 = new ComboBoxItem() { Content = "Таблиця знижок", Tag = "Discount" };
+
+                showComboBox.Items.Add(item1);
+                showComboBox.Items.Add(item2);
+                showComboBox.Items.Add(item3);
+                showComboBox.Items.Add(item4);
+                showComboBox.Items.Add(item5);
+            }
+            else
+            {
+                gridTime.Visibility = Visibility.Hidden;
+                ComboBoxItem item4 = new ComboBoxItem() { Content = "Таблиця штрафів", Tag = "Fines" };
+                ComboBoxItem item5 = new ComboBoxItem() { Content = "Таблиця знижок", Tag = "Discount" };
+
+                showComboBox.Items.Add(item4);
+                showComboBox.Items.Add(item5);
+            }
         }
 
 
@@ -113,6 +142,7 @@ namespace Course
             finally
             {
                 dataBase.closeConnection();
+                textBox_forUpdate.Clear();
             }
         }
 
@@ -142,6 +172,7 @@ namespace Course
             {
                 dataBase.closeConnection();
                 LoadDataIntoGrid($"SELECT * FROM {_showBy}");
+                textBox_forUpdate.Clear();
             }
         }
 
@@ -159,6 +190,7 @@ namespace Course
             }
 
             DataUpdate(newValue);
+            textBox_forUpdate.Clear();
         }
 
 
@@ -187,7 +219,7 @@ namespace Course
             try
             {
                 dataBase.openConnection();
-                
+
                 using (SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection()))
                 {
                     using (SqlDataAdapter adapter = new SqlDataAdapter(command))
@@ -277,6 +309,53 @@ namespace Course
             AdminMenu AdminMenu = new AdminMenu();
             AdminMenu.Show();
             this.Close();
+        }
+
+        private void GetDateTime_Click(object sender, RoutedEventArgs e)
+        {
+            if (_showBy == "Rent" && _columnName == "actual_End_Of_Rental")
+            {
+                DateTime currentDateTime = DateTime.Now;
+                string formattedDateTime = currentDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+                timeTextBox.Text = currentDateTime.ToString("HH:mm:ss.fff");
+
+                textBox_forUpdate.Text = formattedDateTime;
+                MessageBox.Show($"Ви вибрали: {formattedDateTime}");
+            }
+            else
+                MessageBox.Show($"Помилка при виборі комірок, ви можете \nзмінити дату тільки в таблиці Rent \nдля її стовпця actual_End_Of_Rental", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+        }
+
+        private void GetIdKlient_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                dataBase.openConnection();
+
+                string insertQuery = $"INSERT INTO {_showBy} (ID_Klient) Values (@ID_Klient);";
+
+                using (SqlCommand command = new SqlCommand(insertQuery, dataBase.getSqlConnection()))
+                {
+
+                    command.Parameters.AddWithValue("@ID_Klient", idTextBox.Text);
+
+                    command.ExecuteNonQuery();
+
+                    MessageBox.Show("Дані успішно додано", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка при вставці даних: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                dataBase.closeConnection();
+                LoadDataIntoGrid($"SELECT * FROM {_showBy}");
+                idTextBox.Clear();
+            }
         }
     }
 }

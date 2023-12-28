@@ -44,7 +44,7 @@ namespace Course
                 dataBase.closeConnection();
                 this.Close();
             }
-            else if(loginUser == "0979742402")
+            else if(table.Rows.Count == 1 && loginUser == "0979742402")
             {
                 MessageBox.Show("Ви успішно увійшли в акаунт адміністратора!", "Успішно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 AdminMenu AdminMenu = new AdminMenu();
@@ -53,7 +53,7 @@ namespace Course
                 this.Close();
             }
             else
-                MessageBox.Show("Такого акаунту не існує або \nнеправильний пароль!", "Акаунту не існує!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Такого акаунту не існує або \nне правильний пароль!", "Акаунту не існує!", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void SignUpLabel_Click(object sender, MouseButtonEventArgs e)

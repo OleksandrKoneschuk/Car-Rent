@@ -66,13 +66,6 @@ create table Discount
     Klient(ID_Klient) on delete cascade on update no action
 );
 
-SELECT percent_Discount FROM Discount WHERE ID_Klient = 2;
-
-INSERT INTO Discount (name_Discount, percent_Discount, ID_Klient)
-VALUES 
-    (N'Знижка 1', 10, 2),
-    (N'Знижка 2', 15, 2);
-
 
 CREATE PROCEDURE SearchInfoInKlient
     @searchText NVARCHAR(MAX)
@@ -130,3 +123,24 @@ BEGIN
     EXEC sp_executesql @sql
 END
 
+CREATE TRIGGER trg_overdue_rent_fine
+ON Rent
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    DECLARE @ID_Renta INT;
+
+    SELECT @ID_Renta = ID_Renta
+    FROM inserted;
+
+    IF EXISTS (
+            SELECT 1
+            FROM inserted
+            WHERE actual_End_Of_Rental > end_Of_Rental
+                AND CAST(actual_End_Of_Rental AS TIME) > '13:00'
+        )
+    BEGIN
+        INSERT INTO Fines (name_Fines, sum_Fines, ID_Klient)
+        VALUES (N'Прострочена оренда', 50.00, (SELECT ID_Klient FROM Rent WHERE ID_Renta = @ID_Renta));
+    END
+END;

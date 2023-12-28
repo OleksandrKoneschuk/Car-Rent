@@ -35,5 +35,3 @@ D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debu
 D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\DataBaseEditor.g.cs
 D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\AdminMenu.baml
 D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\DataBaseEditor.baml
-D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\ReturnTheCar.g.cs
-D:\Лаби\2 курс\1 семестр\Курсова\VS\Course\Course\obj\Debug\ReturnTheCar.baml

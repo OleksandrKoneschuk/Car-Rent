@@ -80,9 +80,6 @@
     <Compile Include="Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReturnTheCar.xaml.cs">
-      <DependentUpon>ReturnTheCar.xaml</DependentUpon>
-    </Compile>
     <Compile Include="sign_up.xaml.cs">
       <DependentUpon>sign_up.xaml</DependentUpon>
     </Compile>
@@ -122,10 +119,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Profile.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ReturnTheCar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

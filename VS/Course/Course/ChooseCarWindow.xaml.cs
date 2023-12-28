@@ -102,7 +102,8 @@ namespace Course
                 _cost = priceWithoutDiscount - priceWithoutDiscount * (percent / 100);
             }
 
-            cost_TextBox.Text = "Вартість: $" + _cost.ToString();
+            cost_TextBox.Text = $"Вартість: ${_cost.ToString("0.00")}";
+
         }
 
         private void button_Close_Click(object sender, RoutedEventArgs e)

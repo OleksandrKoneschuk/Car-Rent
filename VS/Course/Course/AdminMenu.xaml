@@ -5,54 +5,77 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Course"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="AdminMenu" Height="450" Width="800">
+        Title="AdminMenu" Height="540" Width="960">
     <Grid>
         <Image HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Width="172" Source="Resources/label.png"/>
 
         <Label x:Name="label_admin" Content="Меню адміністрування" HorizontalAlignment="Center" VerticalAlignment="Top" 
              FontFamily="Yu Gothic UI Semibold" FontSize="22" Margin="0,15,0,0"/>
 
-        <Button x:Name="open_AdminWindow"  Content="Додати машину до Бази" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
-    FontSize="18" Height="45" Width="220" Cursor="Hand" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,115,0,0" Click="open_AdminWindow_Click">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 40 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+            </Grid.RowDefinitions>
 
-        <Button x:Name="open_DataBaseEditor" Content="Відкрити вікно Бази" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
-    FontSize="18" Height="45" Width="220" Cursor="Hand" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Click="open_DataBaseEditor_Click" >
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <Button x:Name="return_TheCar" Content="Повернути авто" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
-            FontSize="18" Height="45" Width="220" Cursor="Hand" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,115" Click="return_TheCar_Click" >
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <Button x:Name="back_to_log_in"  Content="До авторизацї" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
-                FontSize="18" Height="45" Width="220" Cursor="Hand" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40" Click="back_to_log_in_Click" >
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+            <Button x:Name="open_AdminWindow" Grid.Row="0" Content="Додати машину до Бази" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
+FontSize="18" Height="45" Width="220" Cursor="Hand" FontWeight="Bold" Click="open_AdminWindow_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button x:Name="open_DataBaseEditor" Grid.Row="1" Content="Відкрити вікно Бази" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
+FontSize="18" Height="45" Width="220" Cursor="Hand" FontWeight="Bold" Click="open_DataBaseEditor_Click" >
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            
+            <Button x:Name="return_TheCar" Grid.Row="2" Content="Повернути авто" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
+        FontSize="18" Height="45" Width="220" Cursor="Hand" FontWeight="Bold" Click="return_TheCar_Click" >
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button x:Name="finesDiscount" Grid.Row="3" Content="Знижки та штрафи" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
+FontSize="18" Height="45" Width="220" Cursor="Hand" FontWeight="Bold" Click="finesDiscount_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button x:Name="back_to_log_in" Grid.Row="4" Content="До авторизацї" FontFamily="Yu Gothic UI Semibold" Background="#87BBA4" 
+            FontSize="18" Height="45" Width="220" Cursor="Hand" FontWeight="Bold" Click="back_to_log_in_Click" >
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
 
         <Button x:Name="button_exit" Height="59" Width="140" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="button_exit_Click" Margin="0,0,10,10" Cursor="Hand">
             <Button.Background>

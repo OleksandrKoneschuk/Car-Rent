@@ -141,7 +141,7 @@
                                         </Grid.RowDefinitions>
 
                                         <TextBox Grid.Row="0" Text="{Binding CarBrandModel}" IsReadOnly="True" Height="35
-                                                 " Width="auto" FontSize="22" 
+                                                 " Width="auto" FontSize="20" 
                                         FontWeight="Bold" FontFamily="Yu Gothic UI Semibold" HorizontalAlignment="Center" VerticalAlignment="Center"
                                         BorderBrush="Transparent" SelectionBrush="{x:Null}" IsHitTestVisible="False" />
                                         <Image Grid.Row="1" Source="{Binding PhotoData}" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
