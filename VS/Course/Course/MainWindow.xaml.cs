@@ -26,6 +26,8 @@ namespace Course
             cars = new ObservableCollection<Car>();
             carListBox.ItemsSource = cars;
 
+
+
             UpdateCarsCollection("SELECT * FROM Avto");
 
             DateTime currentDate = DateTime.Now;
