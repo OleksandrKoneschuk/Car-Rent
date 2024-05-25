@@ -20,6 +20,18 @@ namespace MyLib
         public decimal Cost4_9DayRental { get; set; }
         public decimal Cost10_25DayRental { get; set; }
         public decimal Cost26DayRental { get; set; }
-        public string CarBrandModel { get; set; }
+        public string CarBrandModel => $"{CarBrand} {CarModel}";
+    }
+
+    public class ElectricCar : Car
+    {
+        public int BatteryCapacity { get; set; } 
+        public int RangePerCharge { get; set; } 
+    }
+
+    public class GasCar : Car
+    {
+        public decimal TankCapacity { get; set; } 
+        public decimal FuelEfficiency { get; set; } 
     }
 }
