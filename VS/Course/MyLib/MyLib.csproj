@@ -43,7 +43,11 @@
   <ItemGroup>
     <Compile Include="Car.cs" />
     <Compile Include="DataBase.cs" />
+    <Compile Include="BookingHistoryItem.cs" />
+    <Compile Include="IMessageService.cs" />
+    <Compile Include="Observer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SmsMessageService .cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
