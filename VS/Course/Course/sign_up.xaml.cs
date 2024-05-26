@@ -3,13 +3,13 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Course
 {
     public partial class sign_up : Window
     {
-        DataBase dataBase = new DataBase();
+        private readonly DataBase dataBase = SqlDataBase.Instance;
+
         public sign_up()
         {
             InitializeComponent();
@@ -17,22 +17,15 @@ namespace Course
 
         private void button_Sign_up_Click(object sender, RoutedEventArgs e)
         {
-            var lastName = textBox_lastName.Text;
-            var firstName = textBox_firstName.Text;
-            var surname = textBox_surname.Text;
-            var passportNumber = textBox_passportNumber.Text;
-            var phoneNumber = textBox_phoneNumber.Text;
-            var driverLicense = textBox_driverLicense.Text;
-            var password = textBox_password.Text;
+            string lastName = textBox_lastName.Text;
+            string firstName = textBox_firstName.Text;
+            string surname = textBox_surname.Text;
+            string passportNumber = textBox_passportNumber.Text;
+            string phoneNumber = textBox_phoneNumber.Text;
+            string driverLicense = textBox_driverLicense.Text;
+            string password = textBox_password.Text;
 
-
-            if (string.IsNullOrWhiteSpace(lastName) ||
-                string.IsNullOrWhiteSpace(firstName) ||
-                string.IsNullOrWhiteSpace(surname) ||
-                string.IsNullOrWhiteSpace(passportNumber) ||
-                string.IsNullOrWhiteSpace(phoneNumber) ||
-                string.IsNullOrWhiteSpace(driverLicense) ||
-                string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(surname) || string.IsNullOrWhiteSpace(passportNumber) || string.IsNullOrWhiteSpace(phoneNumber) || string.IsNullOrWhiteSpace(driverLicense) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Будь ласка, заповніть всі поля.", "Помилка вводу", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -44,34 +37,35 @@ namespace Course
                 return;
             }
 
-            if (checkUser())
+            if (CheckUserExists())
             {
                 return;
             }
 
             DateTime currentDate = DateTime.Now;
-            var registration_Date = currentDate.ToString("yyyy-MM-dd");
+            string registrationDate = currentDate.ToString("yyyy-MM-dd");
 
-            string querystring = $"insert into Klient(last_Name, first_Name, surname, passport_Number, phone_Number, driver_License_Number, password_user, registration_Date) " +
-                $"values('{lastName}', '{firstName}', '{surname}', '{passportNumber}', '{phoneNumber}', '{driverLicense}', '{password}', '{registration_Date}')";
+            string queryString = $"INSERT INTO Klient(last_Name, first_Name, surname, passport_Number, phone_Number, driver_License_Number, password_user, registration_Date) VALUES('{lastName}', '{firstName}', '{surname}', '{passportNumber}', '{phoneNumber}', '{driverLicense}', '{password}', '{registrationDate}')";
 
-            SqlCommand command = new SqlCommand(querystring, dataBase.getSqlConnection());
-            dataBase.openConnection();
+            SqlCommand command = new SqlCommand(queryString, dataBase.GetSqlConnection());
+            dataBase.OpenConnection();
 
-            if(command.ExecuteNonQuery() == 1)
+            if (command.ExecuteNonQuery() == 1)
             {
                 MessageBox.Show("Ви успішно зареєстровані!", "Успішно!", MessageBoxButton.OK, MessageBoxImage.Information);
-                log_in log_in = new log_in();
-                log_in.Show();
+                log_in logInWindow = new log_in();
+                logInWindow.Show();
                 this.Close();
             }
             else
+            {
                 MessageBox.Show("Не зареєстровано! Перевірте введення!", "Реєстрація не вдалась!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
-            dataBase.closeConnection();
+            dataBase.CloseConnection();
         }
 
-        private Boolean checkUser()
+        private bool CheckUserExists()
         {
             string loginUser = textBox_phoneNumber.Text;
             string passUser = textBox_password.Text;
@@ -81,7 +75,7 @@ namespace Course
 
             string queryString = "SELECT ID_Klient, phone_Number, password_user FROM Klient WHERE phone_Number = @loginUser AND password_user = @passUser";
 
-            using (SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection()))
+            using (SqlCommand command = new SqlCommand(queryString, dataBase.GetSqlConnection()))
             {
                 command.Parameters.AddWithValue("@loginUser", loginUser);
                 command.Parameters.AddWithValue("@passUser", passUser);
@@ -95,11 +89,7 @@ namespace Course
                 MessageBox.Show("Користувач вже існує!", "Користувач існує!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
-
     }
 }
