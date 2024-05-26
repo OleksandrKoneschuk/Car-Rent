@@ -4,12 +4,11 @@ using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Input;
 
-
 namespace Course
 {
     public partial class log_in : Window
     {
-        DataBase dataBase = new DataBase();
+        private readonly DataBase dataBase = SqlDataBase.Instance;
 
         public log_in()
         {
@@ -18,17 +17,16 @@ namespace Course
 
         private void button_Log_in_Click(object sender, RoutedEventArgs e)
         {
-            var loginUser = textBox_login.Text;
-            var passUser = textBox_password.Text;
+            string loginUser = textBox_login.Text;
+            string passUser = textBox_password.Text;
 
             SqlDataAdapter adapter = new SqlDataAdapter();
             DataTable table = new DataTable();
 
-            dataBase.openConnection();
+            dataBase.OpenConnection();
 
-            string querystring = $"select ID_Klient, phone_Number, password_user from Klient where phone_Number = '{loginUser}' and password_user = '{passUser}'";
-
-            SqlCommand command = new SqlCommand(querystring, dataBase.getSqlConnection());
+            string queryString = $"SELECT ID_Klient, phone_Number, password_user FROM Klient WHERE phone_Number = '{loginUser}' AND password_user = '{passUser}'";
+            SqlCommand command = new SqlCommand(queryString, dataBase.GetSqlConnection());
 
             adapter.SelectCommand = command;
             adapter.Fill(table);
@@ -39,28 +37,30 @@ namespace Course
             {
                 int idKlient = (int)result;
                 MessageBox.Show("Ви успішно увійшли!", "Успішно!", MessageBoxButton.OK, MessageBoxImage.Information);
-                MainWindow MainWindow = new MainWindow(idKlient);
-                MainWindow.Show();
-                dataBase.closeConnection();
+                MainWindow mainWindow = new MainWindow(idKlient);
+                mainWindow.Show();
+                dataBase.CloseConnection();
                 this.Close();
             }
-            else if(table.Rows.Count == 1 && loginUser == "0979742402")
+            else if (table.Rows.Count == 1 && loginUser == "0979742402")
             {
                 MessageBox.Show("Ви успішно увійшли в акаунт адміністратора!", "Успішно!", MessageBoxButton.OK, MessageBoxImage.Information);
-                AdminMenu AdminMenu = new AdminMenu();
-                AdminMenu.Show();
-                dataBase.closeConnection();
+                AdminMenu adminMenu = new AdminMenu();
+                adminMenu.Show();
+                dataBase.CloseConnection();
                 this.Close();
             }
             else
+            {
                 MessageBox.Show("Такого акаунту не існує або \nне правильний пароль!", "Акаунту не існує!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void SignUpLabel_Click(object sender, MouseButtonEventArgs e)
         {
             sign_up signUpWindow = new sign_up();
             signUpWindow.Show();
-            this.Close(); 
+            this.Close();
         }
     }
 }
