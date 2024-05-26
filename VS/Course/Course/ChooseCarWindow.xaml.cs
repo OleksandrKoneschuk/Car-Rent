@@ -8,11 +8,11 @@ namespace Course
 {
     public partial class ChooseCarWindow : Window
     {
-        DataBase dataBase = new DataBase();
+        private readonly DataBase dataBase = SqlDataBase.Instance;
+        private readonly IMessageService messageService;
 
         private DateTime _startDate;
         private DateTime _endDate;
-
         private int _idKlient;
         private int _idAvto;
         private decimal _cost;
@@ -22,38 +22,34 @@ namespace Course
         private decimal _cost4_9DayRental;
         private decimal _cost10_25DayRental;
         private decimal _cost26DayRental;
-        public ChooseCarWindow(DateTime startDate, DateTime endDate, int ID_Avto, int idKlient)
+
+        public ChooseCarWindow(DateTime startDate, DateTime endDate, int idAvto, int idKlient, IMessageService messageService)
         {
             InitializeComponent();
-
             _idKlient = idKlient;
-            _idAvto = ID_Avto;
-
+            _idAvto = idAvto;
             _startDate = startDate;
             _endDate = endDate;
+            this.messageService = messageService;
 
             Start_Date_DatePicker.SelectedDate = _startDate;
             end_Of_Rental_DatePicker.SelectedDate = _endDate;
             GetDiscount();
-            СostСalculation();
+            CalculateCost();
         }
 
-        private void СostСalculation()
+        private void CalculateCost()
         {
             try
             {
-                dataBase.openConnection();
-
+                dataBase.OpenConnection();
                 string queryString = @"
-            SELECT cost_1_3_Day_Rental, cost_4_9_Day_Rental, cost_10_25_Day_Rental, cost_26_Day_Rental
-            FROM Avto
-            WHERE ID_Avto = @_idAvto
-        ";
-
-                using (SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection()))
+                    SELECT cost_1_3_Day_Rental, cost_4_9_Day_Rental, cost_10_25_Day_Rental, cost_26_Day_Rental
+                    FROM Avto
+                    WHERE ID_Avto = @_idAvto";
+                using (SqlCommand command = new SqlCommand(queryString, dataBase.GetSqlConnection()))
                 {
                     command.Parameters.AddWithValue("@_idAvto", _idAvto);
-
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -72,65 +68,50 @@ namespace Course
             }
             finally
             {
-                dataBase.closeConnection();
+                dataBase.CloseConnection();
             }
-
 
             TimeSpan difference = _endDate - _startDate;
             int numberOfDays = difference.Days;
 
-            decimal percent = _percentDiscount;
             decimal priceWithoutDiscount;
             if (numberOfDays >= 1 && numberOfDays <= 3)
             {
                 priceWithoutDiscount = _cost1_3DayRental * numberOfDays;
-                _cost = priceWithoutDiscount - priceWithoutDiscount * (percent / 100);
             }
             else if (numberOfDays >= 4 && numberOfDays <= 9)
             {
                 priceWithoutDiscount = _cost4_9DayRental * numberOfDays;
-                _cost = priceWithoutDiscount - priceWithoutDiscount * (percent / 100);
             }
+
             else if (numberOfDays >= 10 && numberOfDays <= 25)
             {
                 priceWithoutDiscount = _cost10_25DayRental * numberOfDays;
-                _cost = priceWithoutDiscount - priceWithoutDiscount * (percent / 100);
             }
             else
             {
                 priceWithoutDiscount = _cost26DayRental * numberOfDays;
-                _cost = priceWithoutDiscount - priceWithoutDiscount * (percent / 100);
             }
 
-            cost_TextBox.Text = $"Вартість: ${_cost.ToString("0.00")}";
-
-        }
-
-        private void button_Close_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            _cost = priceWithoutDiscount - (priceWithoutDiscount * _percentDiscount / 100);
+            cost_TextBox.Text = $"Вартість: ${_cost:0.00}";
         }
 
         private void GetDiscount()
         {
             try
             {
-                dataBase.openConnection();
-
+                dataBase.OpenConnection();
                 string queryString = "SELECT percent_Discount FROM Discount WHERE ID_Klient = @_idKlient";
-
-                using (SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection()))
+                using (SqlCommand command = new SqlCommand(queryString, dataBase.GetSqlConnection()))
                 {
                     command.Parameters.AddWithValue("@_idKlient", _idKlient);
-
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         int count = 0;
-
                         while (reader.Read())
                         {
                             int currentDiscount = reader.GetInt32(0);
-
                             if (count == 0)
                             {
                                 _percentDiscount = currentDiscount;
@@ -139,10 +120,8 @@ namespace Course
                             {
                                 _percentDiscount += currentDiscount / 3;
                             }
-
                             count++;
                         }
-
                         if (count <= 0)
                         {
                             MessageBox.Show($"Для клієнта з ID {_idKlient} не знайдено знижок.");
@@ -152,34 +131,32 @@ namespace Course
             }
             catch (Exception ex)
             {
-                HandleException("Помилка при отриманні даних про ціни авто", ex);
+                MessageBox.Show($"Помилка при отриманні знижок: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
-                dataBase.closeConnection();
+                dataBase.CloseConnection();
             }
         }
 
-
         private void button_Submit_Click(object sender, RoutedEventArgs e)
         {
-            if (checkRent())
+            if (CheckRent())
             {
                 return;
             }
 
             try
             {
-                var startDate = _startDate.ToString("yyyy-MM-dd");
-                var endDate = _endDate.ToString("yyyy-MM-dd");
+                string startDate = _startDate.ToString("yyyy-MM-dd");
+                string endDate = _endDate.ToString("yyyy-MM-dd");
 
                 string queryString = @"
-            INSERT INTO Rent (rental_Start_Date, end_Of_Rental, actual_End_Of_Rental, rental_Price, ID_Klient, ID_Avto)
-            VALUES (@startDate, @endDate, ' ', @cost, @idKlient, @idAvto)
-        ";
+                    INSERT INTO Rent (rental_Start_Date, end_Of_Rental, actual_End_Of_Rental, rental_Price, ID_Klient, ID_Avto)
+                    VALUES (@startDate, @endDate, NULL, @cost, @idKlient, @idAvto)";
 
-                SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection());
-                dataBase.openConnection();
+                SqlCommand command = new SqlCommand(queryString, dataBase.GetSqlConnection());
+                dataBase.OpenConnection();
 
                 command.Parameters.AddWithValue("@startDate", startDate);
                 command.Parameters.AddWithValue("@endDate", endDate);
@@ -190,6 +167,8 @@ namespace Course
                 if (command.ExecuteNonQuery() == 1)
                 {
                     MessageBox.Show("Ви успішно забронювали авто!", "Успішно!", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    SendSmsNotification();
                 }
                 else
                 {
@@ -198,18 +177,27 @@ namespace Course
             }
             catch (Exception ex)
             {
-                HandleException("Помилка при бронюванні авто", ex);
+                MessageBox.Show($"Помилка при бронюванні авто: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
-                dataBase.closeConnection();
+                dataBase.CloseConnection();
             }
         }
 
-        private Boolean checkRent()
+        private void SendSmsNotification()
         {
-            var startDate = _startDate.ToString("yyyy-MM-dd");
-            var endDate = _endDate.ToString("yyyy-MM-dd");
+            string phoneNumber = "0971234567"; 
+            string message = $"Ваше бронювання авто успішно завершено. Дати оренди: {_startDate.ToShortDateString()} - {_endDate.ToShortDateString()}.";
+            messageService.SendMessage(phoneNumber, message);
+
+            MessageBox.Show($"Sending SMS to {phoneNumber}: {message}", "SMS Notification", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private bool CheckRent()
+        {
+            string startDate = _startDate.ToString("yyyy-MM-dd");
+            string endDate = _endDate.ToString("yyyy-MM-dd");
 
             SqlDataAdapter adapter = new SqlDataAdapter();
             DataTable table = new DataTable();
@@ -218,9 +206,9 @@ namespace Course
                 SELECT 1
                 FROM Rent
                 WHERE ID_Avto = @idAvto AND 
-                NOT (end_Of_Rental < @startDate OR rental_Start_Date > @endDate);";
+                NOT (end_Of_Rental < @startDate OR rental_Start_Date > @endDate)";
 
-            SqlCommand command = new SqlCommand(queryString, dataBase.getSqlConnection());
+            using (SqlCommand command = new SqlCommand(queryString, dataBase.GetSqlConnection()))
             {
                 command.Parameters.AddWithValue("@startDate", startDate);
                 command.Parameters.AddWithValue("@endDate", endDate);
@@ -230,16 +218,17 @@ namespace Course
                 adapter.Fill(table);
             }
 
-
             if (table.Rows.Count > 0)
             {
-                MessageBox.Show("Машина зайнята на ці числа!", "Заброньвано!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Машина зайнята на ці числа!", "Заброньовано!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
+        }
+
+        private void button_Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void HandleException(string errorMessage, Exception ex)
