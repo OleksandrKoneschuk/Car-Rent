@@ -123,6 +123,7 @@ BEGIN
     EXEC sp_executesql @sql
 END
 
+
 CREATE TRIGGER trg_overdue_rent_fine
 ON Rent
 AFTER INSERT, UPDATE
