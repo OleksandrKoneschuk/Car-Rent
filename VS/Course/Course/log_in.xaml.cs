@@ -1,4 +1,5 @@
 ﻿using MyLib;
+using MyLib.DB;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -9,6 +10,7 @@ namespace Course
     public partial class log_in : Window
     {
         private readonly DataBase dataBase = SqlDataBase.Instance;
+        const string AdminNumber = "0979742402";
 
         public log_in()
         {
@@ -33,22 +35,20 @@ namespace Course
 
             object result = command.ExecuteScalar();
 
-            if (table.Rows.Count == 1 && loginUser != "0979742402")
+            if (table.Rows.Count == 1 && loginUser != AdminNumber)
             {
                 int idKlient = (int)result;
                 MessageBox.Show("Ви успішно увійшли!", "Успішно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 MainWindow mainWindow = new MainWindow(idKlient);
                 mainWindow.Show();
-                dataBase.CloseConnection();
-                this.Close();
+                CloseWindow();
             }
-            else if (table.Rows.Count == 1 && loginUser == "0979742402")
+            else if (table.Rows.Count == 1 && loginUser == AdminNumber)
             {
                 MessageBox.Show("Ви успішно увійшли в акаунт адміністратора!", "Успішно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 AdminMenu adminMenu = new AdminMenu();
                 adminMenu.Show();
-                dataBase.CloseConnection();
-                this.Close();
+                CloseWindow();
             }
             else
             {
@@ -56,6 +56,11 @@ namespace Course
             }
         }
 
+        private void CloseWindow()
+        {
+            dataBase.CloseConnection();
+            this.Close();
+        }
         private void SignUpLabel_Click(object sender, MouseButtonEventArgs e)
         {
             sign_up signUpWindow = new sign_up();

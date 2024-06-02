@@ -1,4 +1,7 @@
 ﻿using MyLib;
+using MyLib.Cars;
+using MyLib.DB;
+using MyLib.ObserverFolder;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -97,11 +100,13 @@ namespace Course
                         CarYear = (int)reader["car_Year"],
                         AverageFuelConsumption = (decimal)reader["average_Fuel_Consumption"],
                         PhotoData = reader["PhotoData"] as byte[],
-                        Cost1_3DayRental = (decimal)reader["cost_1_3_Day_Rental"],
-                        Cost4_9DayRental = (decimal)reader["cost_4_9_Day_Rental"],
-                        Cost10_25DayRental = (decimal)reader["cost_10_25_Day_Rental"],
-                        Cost26DayRental = (decimal)reader["cost_26_Day_Rental"]
+                        RentalCosts = new RentalCost(),
+
                     };
+                    car.RentalCosts.Cost1_3DayRental = (decimal)reader["cost_1_3_Day_Rental"];
+                    car.RentalCosts.Cost4_9DayRental = (decimal)reader["cost_4_9_Day_Rental"];
+                    car.RentalCosts.Cost10_25DayRental = (decimal)reader["cost_10_25_Day_Rental"];
+                    car.RentalCosts.Cost26DayRental = (decimal)reader["cost_26_Day_Rental"];
                     carList.Add(car);
                 }
             }

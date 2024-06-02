@@ -41,13 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Car.cs" />
-    <Compile Include="DataBase.cs" />
+    <Compile Include="Cars\Car.cs" />
+    <Compile Include="Cars\ElectricCar.cs" />
+    <Compile Include="Cars\RentalCost.cs" />
+    <Compile Include="DB\DataBase.cs" />
     <Compile Include="BookingHistoryItem.cs" />
+    <Compile Include="DB\MySqlDataBase.cs" />
+    <Compile Include="DB\SqlDataBase.cs" />
+    <Compile Include="Cars\GasCar.cs" />
     <Compile Include="IMessageService.cs" />
-    <Compile Include="Observer.cs" />
+    <Compile Include="ObserverFolder\CarDataNotifier.cs" />
+    <Compile Include="ObserverFolder\ISubject.cs" />
+    <Compile Include="ObserverFolder\IObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmsMessageService .cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
