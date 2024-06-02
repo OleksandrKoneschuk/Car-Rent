@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using MyLib;
+using MyLib.DB;
 using System;
 using System.Data.SqlClient;
 using System.IO;
@@ -47,6 +48,7 @@ namespace Course
             string carColor = textBox_carColor.Text;
             int carYear = int.Parse(textBox_carYear.Text);
             decimal averageFuelConsumption = decimal.Parse(textBox_averageFuelConsumption.Text);
+
             decimal cost1_3DayRental = decimal.Parse(textBox_cost1_3DayRental.Text);
             decimal cost4_9DayRental = decimal.Parse(textBox_cost4_9DayRental.Text);
             decimal cost10_25DayRental = decimal.Parse(textBox_cost10_25DayRental.Text);

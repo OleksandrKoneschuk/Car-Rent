@@ -1,8 +1,10 @@
 ﻿using MyLib;
+using MyLib.DB;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
+using static Course.ChooseCarWindow;
 
 namespace Course
 {
@@ -38,6 +40,12 @@ namespace Course
             CalculateCost();
         }
 
+        private struct RentalPrice
+        {
+            public decimal Price;
+            public int MinDays;
+            public int MaxDays;
+        }
         private void CalculateCost()
         {
             try
@@ -71,31 +79,35 @@ namespace Course
                 dataBase.CloseConnection();
             }
 
-            TimeSpan difference = _endDate - _startDate;
-            int numberOfDays = difference.Days;
+            RentalPrice[] rentalPrices = new RentalPrice[]
+            {
+                new RentalPrice { Price = _cost1_3DayRental, MinDays = 1, MaxDays = 3 },
+                new RentalPrice { Price = _cost4_9DayRental, MinDays = 4, MaxDays = 9 },
+                new RentalPrice { Price = _cost10_25DayRental, MinDays = 10, MaxDays = 25 },
+                new RentalPrice { Price = _cost26DayRental, MinDays = 26, MaxDays = int.MaxValue }
+            };
 
-            decimal priceWithoutDiscount;
-            if (numberOfDays >= 1 && numberOfDays <= 3)
-            {
-                priceWithoutDiscount = _cost1_3DayRental * numberOfDays;
-            }
-            else if (numberOfDays >= 4 && numberOfDays <= 9)
-            {
-                priceWithoutDiscount = _cost4_9DayRental * numberOfDays;
-            }
-
-            else if (numberOfDays >= 10 && numberOfDays <= 25)
-            {
-                priceWithoutDiscount = _cost10_25DayRental * numberOfDays;
-            }
-            else
-            {
-                priceWithoutDiscount = _cost26DayRental * numberOfDays;
-            }
-
+            decimal priceWithoutDiscount = Calculation(rentalPrices);
             _cost = priceWithoutDiscount - (priceWithoutDiscount * _percentDiscount / 100);
             cost_TextBox.Text = $"Вартість: ${_cost:0.00}";
         }
+
+        private decimal Calculation(RentalPrice[] rentalPrices)
+        {
+            TimeSpan difference = _endDate - _startDate;
+            int numberOfDays = difference.Days;
+            decimal priceWithoutDiscount=0;
+            foreach (RentalPrice rentalPrice in rentalPrices)
+            {
+                if (numberOfDays >= rentalPrice.MinDays && numberOfDays <= rentalPrice.MaxDays)
+                {
+                    priceWithoutDiscount = rentalPrice.Price * numberOfDays;
+                    break;
+                }
+            }
+            return priceWithoutDiscount;
+        }
+
 
         private void GetDiscount()
         {
@@ -187,7 +199,7 @@ namespace Course
 
         private void SendSmsNotification()
         {
-            string phoneNumber = "0971234567"; 
+            string phoneNumber = "0971234567";
             string message = $"Ваше бронювання авто успішно завершено. Дати оренди: {_startDate.ToShortDateString()} - {_endDate.ToShortDateString()}.";
             messageService.SendMessage(phoneNumber, message);
 
